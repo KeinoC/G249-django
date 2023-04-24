@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, authenticate, login
 from django.http import HttpResponse
 from models import User
 
@@ -60,3 +60,25 @@ def users(request):
     else:
     # Return an appropriate response for other methods
         return HttpResponse('Method not allowed.', status=405)
+
+
+####################
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # User credentials are valid, login the user
+            login(request, user)
+            return HttpResponse('Login successful')
+        else:
+            # User credentials are invalid, return an error response
+            return HttpResponse('Invalid username or password')
+    else:
+        # Handle GET request as needed
+        return HttpResponse('Hello, this is the login endpoint for GET request.')
