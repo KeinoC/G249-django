@@ -5,7 +5,8 @@ DATABASES = {
     }
 },
 INSTALLED_APPS = [
-    # ...
+    # ...\
+    'django249',
     'corsheaders',
     # ...
 ],
